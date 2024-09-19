@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxLengthValidator
 
 
 
@@ -11,7 +12,7 @@ class Comment(models.Model):
     ]
     
     user = models.ForeignKey(to=User, default=None, blank=True, on_delete=models.CASCADE ,verbose_name='User')
-    text = models.TextField(max_length=200, default=None, blank=True, verbose_name='Comment')
+    text = models.TextField(max_length=200, validators=[MaxLengthValidator(200)], default=None, blank=True, verbose_name='Comment')
     rate = models.IntegerField(choices=RATES, default=None, blank=True, verbose_name='Rate')
     viewed_by_admin = models.BooleanField(default=False, blank=True, verbose_name='Viewed By Admin')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')

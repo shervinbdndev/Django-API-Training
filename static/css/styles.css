@@ -1,0 +1,37 @@
+.square {
+    display: flex;
+    width: 500px;
+    height: 400px;
+    border-radius: 25px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.white-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 25px;
+}
+
+@media (max-width: 992px) {
+    .square {
+        width: 550px;
+        height: 450px;
+    }
+
+    .white-container {
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 576px) {
+    .square {
+        width: 400px;
+        height: 300px;
+    }
+
+    .white-container {
+        max-width: 250px;
+    }
+}

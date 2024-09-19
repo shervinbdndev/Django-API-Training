@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     path(
         route='comments/add/',
-        view=views.AddCommentRelatedApiView.as_view(),
+        view=views.AddCommentRelatedToUserApiView.as_view(),
         name='user-add-comment',
     ),
     path(

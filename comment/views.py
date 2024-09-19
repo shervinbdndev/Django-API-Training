@@ -1,10 +1,8 @@
-from rest_framework import status
-from rest_framework import permissions
 from rest_framework.views import APIView
+from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, permissions
 
-from django.http.request import HttpRequest
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
@@ -17,10 +15,10 @@ from .serializers import CommentModelSerializer
 
 
 
-class AddCommentRelatedApiView(APIView):
-    permission_classes = [IsAuthenticated]
+class AddCommentRelatedToUserApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     
-    def post(self, request: HttpRequest):
+    def post(self, request: Request):
         comment_serializer: CommentModelSerializer = CommentModelSerializer(request.data)
         if (comment_serializer.is_valid()):
             comment_serializer.save(user=request.user)
@@ -28,6 +26,7 @@ class AddCommentRelatedApiView(APIView):
                 comment_serializer.data,
                 status=status.HTTP_201_CREATED
             )
+            
         return Response(
             comment_serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
@@ -44,7 +43,7 @@ class AddCommentRelatedApiView(APIView):
 class ListSpecificUserCommentsApiView(APIView):
     permission_classes = [permissions.AllowAny]
     
-    def get(self, request: HttpRequest, username: str) -> Response:
+    def get(self, request: Request, username: str) -> Response:
         try:
             user: User = User.objects.get(username=username)
         
@@ -73,9 +72,9 @@ class ListSpecificUserCommentsApiView(APIView):
 
 
 class UpdateCommentRelatedToUserApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
-    def put(self, request: HttpRequest, pk: int) -> Response:
+    def put(self, request: Request, pk: int) -> Response:
         try:
             comment: Comment = Comment.objects.get(
                 pk=pk,
@@ -113,9 +112,9 @@ class UpdateCommentRelatedToUserApiView(APIView):
 
 
 class DeleteCommentRelatedToUserApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
-    def delete(self, request: HttpRequest, comment_id: int) -> Response:
+    def delete(self, request: Request, comment_id: int) -> Response:
         comment = get_object_or_404(
             klass=Comment,
             id=comment_id,
